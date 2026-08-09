@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Theme tokens.
+ * Every surface/ink/border colour used by components resolves to these CSS
+ * variables, so the light / dark / AMOLED themes swap in one place instead of
+ * scattering dark-mode overrides throughout the codebase.
+ */
+:root,
+:root[data-theme="light"] {
+  /* light = the original Coursify appearance, unchanged */
+  --background: 255 255 255;
+  --surface: 246 247 249;
+  --surface-hover: 239 241 244;
+  --border: 230 232 236;
+  --ink: 18 20 28;
+  --ink-soft: 58 63 75;
+  --muted: 107 114 128;
+  --accent: 44 74 140;
+  --accent-soft: 234 240 251;
+  --accent-hover: 35 60 112;
+  --signal-amber: 183 121 31;
+  --signal-green: 31 122 77;
+  --ink-solid: 18 20 28;
+  --on-ink: 255 255 255;
+  --shadow-soft: 0 1px 2px rgba(18, 20, 28, 0.04), 0 8px 24px rgba(18, 20, 28, 0.06);
+  --shadow-soft-lg: 0 4px 12px rgba(18, 20, 28, 0.06), 0 16px 40px rgba(18, 20, 28, 0.08);
+  --scrollbar-thumb: #d8dbe1;
+  --scrollbar-thumb-hover: #c2c6ce;
+  --focus-ring: 44 74 140;
+}
+
+:root[data-theme="dark"] {
+  --background: 23 25 32;
+  --surface: 29 32 40;
+  --surface-hover: 35 38 47;
+  --border: 47 51 61;
+  --ink: 232 234 240;
+  --ink-soft: 197 201 211;
+  --muted: 152 159 171;
+  --accent: 103 135 196;
+  --accent-soft: 30 41 66;
+  --accent-hover: 125 155 211;
+  --signal-amber: 214 160 78;
+  --signal-green: 76 170 122;
+  --ink-solid: 232 234 240;
+  --on-ink: 23 25 32;
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-soft-lg: 0 4px 12px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.45);
+  --scrollbar-thumb: #3a3e4a;
+  --scrollbar-thumb-hover: #4b5060;
+  --focus-ring: 103 135 196;
+}
+
+:root[data-theme="amoled"] {
+  --background: 0 0 0;
+  --surface: 10 12 16;
+  --surface-hover: 18 20 26;
+  --border: 32 34 42;
+  --ink: 240 241 245;
+  --ink-soft: 202 205 214;
+  --muted: 148 155 168;
+  --accent: 108 140 202;
+  --accent-soft: 24 33 56;
+  --accent-hover: 134 163 219;
+  --signal-amber: 209 152 66;
+  --signal-green: 68 162 114;
+  --ink-solid: 240 241 245;
+  --on-ink: 0 0 0;
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-soft-lg: 0 4px 12px rgba(0, 0, 0, 0.6), 0 16px 40px rgba(0, 0, 0, 0.7);
+  --scrollbar-thumb: #22242c;
+  --scrollbar-thumb-hover: #30333d;
+  --focus-ring: 108 140 202;
+}
+
+:root {
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-ink font-body antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+::selection {
+  background: rgb(var(--focus-ring));
+  color: #ffffff;
+}
+
+/* visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid rgb(var(--focus-ring));
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* subtle scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+.container-content {
+  @apply mx-auto w-full max-w-content px-6 md:px-8;
+}
+
+/*
+ * Whatever element the browser puts into fullscreen (Fullscreen API) must be
+ * able to scroll its own content vertically. This is deliberately NOT
+ * dependent on any React state/Tailwind class toggling in sync with the
+ * fullscreenchange event — it hooks the actual browser pseudo-class so it
+ * always matches reality, even across a render tick of lag.
+ */
+:fullscreen {
+  overflow-y: auto !important;
+  height: 100% !important;
+}
+:-webkit-full-screen {
+  overflow-y: auto !important;
+  height: 100% !important;
+}
+:-moz-full-screen {
+  overflow-y: auto !important;
+  height: 100% !important;
+}
